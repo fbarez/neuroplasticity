@@ -1,0 +1,11 @@
+name: neuronid
+channels:
+  - defaults
+dependencies:
+  - numpy
+  - pandas
+  - bs4
+  - requests
+  - gensim
+  - ipykernel
+prefix: /Users/michellelo/miniconda3/envs/neuronid

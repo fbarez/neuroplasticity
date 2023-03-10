@@ -1,11 +1,13 @@
-import describe, verify
-
 from bs4 import BeautifulSoup
 
 from transformer_lens.utils import to_numpy
+from transformer_lens import HookedTransformer
 
 import urllib.request
 import re
+
+model_name = "solu-8l-pile"
+solu_model = HookedTransformer.from_pretrained(model_name)
 
 # Return the URL for Neuroscope's model neuron index
 def get_neuron_url(model_name, layer, number):
@@ -68,21 +70,6 @@ def scrape_neuron_max_activations(model_name, layer, number):
       index += 1
 
   return (max_tokens, max_acts, max_phrases)
-
-# Calculate similarity score among words which activate neuron the most
-def calculate_similarity(activation_tokens):
-  similarities = []
-  for i in range(len(activation_tokens)):
-    word = activation_tokens[i]
-    try:
-      for j in range(i, len(activation_tokens)):
-        word_b = activation_tokens[j]
-        similarities.append(model.wv.similarity(word, word_b))
-    except:
-      continue
-  if len(similarities) == 0:
-    return 0
-  return sum(similarities) / len(similarities)
 
 # Hacky way to get out state from a single hook (Neuroscope documentation).
 def get_neuron_acts(text, layer, neuron_index):

@@ -1,6 +1,6 @@
-import describe, identify
+from identify import get_max_activations
 
-from gensim import downloader as api
+import gensim.downloader as api
 from gensim.models.fasttext import FastText
 
 try:
@@ -9,6 +9,21 @@ except:
   corpus = api.load('text8')
   model = FastText(corpus)
   model.save("fasttext.model")
+
+# Calculate similarity score among words which activate neuron the most
+def calculate_similarity(activation_tokens):
+  similarities = []
+  for i in range(len(activation_tokens)):
+    word = activation_tokens[i]
+    try:
+      for j in range(i, len(activation_tokens)):
+        word_b = activation_tokens[j]
+        similarities.append(model.wv.similarity(word, word_b))
+    except:
+      continue
+  if len(similarities) == 0:
+    return 0
+  return sum(similarities) / len(similarities)
 
 def substitute_similar(activation_tokens, cur_acts, index, neuron_layer):
   higher_toks = []
