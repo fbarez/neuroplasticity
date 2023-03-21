@@ -36,29 +36,20 @@ def calculate_phrase_similarity(max_phrases):
         similarities.append(model.wv.n_similarity(phrase.split(), phrase_b.split()))
     except:
       continue
-  # Compute cosine similarity between two sentence vectors
-  # max_phrases_vectors = [model.wv.get_sentence_vector(x) for x in max_phrases]
-  # for i in range(len(max_phrases_vectors)):
-  #   phrase_vec = max_phrases_vectors[i]
-  #   other_vecs = [x for x in max_phrases_vectors if x != phrase_vec]
-  #   try:
-  #     sim = model.wv.cosine_similarities(phrase_vec, other_vecs)
-  #     similarities.append(sim)
-  #   except:
-  #     continue
   if len(similarities) == 0:
     return 0
   return sum(similarities) / len(similarities)
 
-def substitute_similar(activation_tokens, cur_acts, index, neuron_layer):
+# Substitute synonyms in for max activation tokens
+def substitute_similar(activation_tokens, cur_acts, index, neuron_layer, NUM_SYNONYMS):
   higher_toks = []
   higher_acts = []
   for i in range(len(activation_tokens)):
     token = activation_tokens[i]
     phrase = activation_tokens[i]
     cur_act = cur_acts[i]
-    # Get the top 5 most similar tokens and check activations
-    most_similar = model.wv.most_similar(token, topn=5)
+    # Get the top N most similar tokens and check activations
+    most_similar = model.wv.most_similar(token, topn=NUM_SYNONYMS)
     similar_tokens = [ls[0] for ls in most_similar]
     for sub in similar_tokens:
       new_phrase = phrase.replace(token, sub)
@@ -76,13 +67,13 @@ def substitute_similar(activation_tokens, cur_acts, index, neuron_layer):
 
   new_activation_tokens = activation_tokens + higher_toks
   new_activation_scores = cur_acts + higher_acts
-  # We should have number of tokens checked = (9 + 1) * number of initial tokens
-  tokens_checked = 10 * len(activation_tokens)
+  tokens_checked = (NUM_SYNONYMS + 1) * len(activation_tokens)
 
   avg_score = sum(new_activation_scores) / tokens_checked
   
   return (new_activation_tokens, avg_score)
 
+# Substitute synonyms in for max activation phrases
 def substitute_similar_phrases(activation_phrases, cur_acts, index, neuron_layer, NUM_SYNONYMS):
   higher_phrases = []
   higher_acts = []
@@ -90,7 +81,7 @@ def substitute_similar_phrases(activation_phrases, cur_acts, index, neuron_layer
   for i in range(len(activation_phrases)):
     phrase = activation_phrases[i]
     cur_act = cur_acts[i]
-    # For each word in the phrase, get the top 5 synonyms and check activations
+    # For each word in the phrase, get the top N synonyms and check activations
     for word in phrase:
       most_similar = model.wv.most_similar(word, topn=NUM_SYNONYMS) # Returns (key, similarity)
       similar_tokens = [ls[0] for ls in most_similar] # Extract similarity only

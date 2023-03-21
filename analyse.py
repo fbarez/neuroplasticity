@@ -1,7 +1,7 @@
 from describe import summarise_neuron
 import pandas as pd
 
-# Iteration
+# Iterate through each neuron in a layer of the given model with parameters
 def identify_neurons(neuron_layer, max_index, model_name, SIMILARITY_THRESHOLD, NUM_SYNONYMS):
   act_desc = []
 
@@ -14,6 +14,7 @@ def identify_neurons(neuron_layer, max_index, model_name, SIMILARITY_THRESHOLD, 
 
   return act_desc
 
+# Extract results from identifying high potential feature neurons
 def analyse_model_layer(layer, model_name, num_neurons, SIMILARITY_THRESHOLD, NORM_ACT_THRESHOLD, NUM_SYNONYMS):
   active_neurons = []
 
@@ -37,6 +38,7 @@ def analyse_model_layer(layer, model_name, num_neurons, SIMILARITY_THRESHOLD, NO
   
   return active_neurons
 
+# Save results from analysis in a dataframe
 def id_feature_neuron_results(layer, model_name, num_neurons, SIMILARITY_THRESHOLD, NORM_ACT_THRESHOLD, NUM_SYNONYMS):
   active_neurons = analyse_model_layer(layer, model_name, num_neurons, SIMILARITY_THRESHOLD, NORM_ACT_THRESHOLD, NUM_SYNONYMS)
   df = pd.DataFrame(active_neurons)
