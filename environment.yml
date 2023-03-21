@@ -2,10 +2,17 @@ name: neuronid
 channels:
   - defaults
 dependencies:
-  - numpy
   - pandas
   - bs4
   - requests
   - gensim
   - ipykernel
+  - git
+  - pip
+  - pytorch
+  - numpy
+  - attrs
+  - pip:
+    - "--editable=git+https://github.com/neelnanda-io/TransformerLens#egg=transformer_lens"
+    - "openai"
 prefix: /Users/michellelo/miniconda3/envs/neuronid

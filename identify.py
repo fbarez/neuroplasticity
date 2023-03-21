@@ -16,7 +16,7 @@ def get_neuron_url(model_name, layer, number):
 
 # Scrape the Neuroscope website for the chosen neuron
 def scrape_neuroscope(neuron_url):
-  neuron_request = urllib.request.urlopen(neuron_url).read()
+  neuron_request = urllib.request.urlopen(neuron_url, timeout=120).read()
   return BeautifulSoup(neuron_request)
 
 # Extract the list of tokens, list of activations and the max activation.
@@ -29,7 +29,7 @@ def clean_scraped_data(dataset):
     # Convert into clean list of strings
     token_list = tokens_match.group(1).replace("\"",'').split(', ')[:-1]
     act_list = acts_match.group(1).replace("\"",'').split(',')[:-1]
-    # Identify maximum activation (normalised)
+    # Identify maximum activation score (normalised)
     act_floats = [float(x) for x in act_list]
     maximum = max(act_floats)
     return token_list, act_list, maximum
@@ -62,8 +62,8 @@ def scrape_neuron_max_activations(model_name, layer, number):
     index = 0
     for tok, act in zip(token_list, act_list):
       if (float(act) == maximum):
-        before = max(index - 3, 0)
-        after = min(index + 3, len(token_list) - 1)
+        before = max(index - 5, 0)
+        after = min(index + 5, len(token_list) - 1)
         max_tokens.append(tok)
         max_acts.append(maximum)
         max_phrases.append(' '.join(token_list[before : after]))
