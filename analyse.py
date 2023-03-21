@@ -1,11 +1,12 @@
 from describe import summarise_neuron
+import pandas as pd
 
 # Iteration
-def identify_neurons(neuron_layer, max_index, model_name):
+def identify_neurons(neuron_layer, max_index, model_name, SIMILARITY_THRESHOLD, NUM_SYNONYMS):
   act_desc = []
 
   for index in range(max_index):
-    summary = summarise_neuron(index, neuron_layer, model_name)
+    summary = summarise_neuron(index, neuron_layer, model_name, SIMILARITY_THRESHOLD, NUM_SYNONYMS)
     if summary is None:
       continue
     avg_act, description, new_tokens = summary
@@ -13,18 +14,30 @@ def identify_neurons(neuron_layer, max_index, model_name):
 
   return act_desc
 
-def analyse_model_layer(layer, model_name, num_neurons):
-  act_desc = identify_neurons(layer, num_neurons, model_name)
+def analyse_model_layer(layer, model_name, num_neurons, SIMILARITY_THRESHOLD, NORM_ACT_THRESHOLD, NUM_SYNONYMS):
+  active_neurons = []
 
-  if len(act_desc) == 0:
+  potential_neurons = identify_neurons(layer, num_neurons, model_name, SIMILARITY_THRESHOLD, NUM_SYNONYMS)
+
+  if len(potential_neurons) == 0:
     return
 
-  sorted_by_act = sorted(act_desc, key=lambda tup: tup[1], reverse=True)
-  max_activation = max([act for act, _, _, _ in sorted_by_act])
-  print("Max activation: ", max_activation)
+  max_activation = max([act for act, _, _, _ in potential_neurons])
 
-  for act, desc, new_tokens, index in sorted_by_act:
+  for act, desc, new_tokens, index in potential_neurons:
     norm_act = act / max_activation
-    if norm_act >= 0.3:
-      print("Neuron " + str(index) + ": activation " + str(norm_act) + ", " + desc)
-      print("Tokens: ", new_tokens)
+    if norm_act >= NORM_ACT_THRESHOLD:
+      neuron_info = {
+          "index": index,
+          "avg_activation": norm_act,
+          "desc": desc,
+          "max_phrases": new_tokens
+      }
+      active_neurons.append(neuron_info)
+  
+  return active_neurons
+
+def id_feature_neuron_results(layer, model_name, num_neurons, SIMILARITY_THRESHOLD, NORM_ACT_THRESHOLD, NUM_SYNONYMS):
+  active_neurons = analyse_model_layer(layer, model_name, num_neurons, SIMILARITY_THRESHOLD, NORM_ACT_THRESHOLD, NUM_SYNONYMS)
+  df = pd.DataFrame(active_neurons)
+  return df
