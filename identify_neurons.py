@@ -12,7 +12,7 @@ solu_model = HookedTransformer.from_pretrained(model_name)
 
 def get_neuron_url(model_name, layer, number):
     """Return the URL for Neuroscope's model neuron index."""
-    model_index = 'https://neuroscope.io/'
+    model_index = "https://neuroscope.io/"
     return model_index + model_name + "/" + str(layer) + "/" + str(number) + ".html"
 
 
@@ -30,8 +30,8 @@ def clean_scraped_data(dataset):
 
     if tokens_match and acts_match:
         # Convert into clean list of strings
-        token_list = tokens_match.group(1).replace("\"", '').split(', ')[:-1]
-        act_list = acts_match.group(1).replace("\"", '').split(',')[:-1]
+        token_list = tokens_match.group(1).replace('"', "").split(", ")[:-1]
+        act_list = acts_match.group(1).replace('"', "").split(",")[:-1]
         # Identify maximum activation score (normalised)
         act_floats = [float(x) for x in act_list]
         maximum = max(act_floats)
@@ -54,10 +54,10 @@ def scrape_neuron_max_activations(model_name, layer, number):
     max_acts = []
 
     count = 0
-    for dataset in scraped.find_all('script', type='module'):
+    for dataset in scraped.find_all("script", type="module"):
         count += 1
         # Ignore full text scraped. We only want the max activating sentences.
-        if (count % 2 == 0):
+        if count % 2 == 0:
             continue
         # Extract tokens and activations.
         token_list, act_list, maximum = clean_scraped_data(dataset)
@@ -67,12 +67,12 @@ def scrape_neuron_max_activations(model_name, layer, number):
         # Return the max act token, its activation and its surrounding phrase
         index = 0
         for tok, act in zip(token_list, act_list):
-            if (float(act) == maximum):
+            if float(act) == maximum:
                 before = max(index - 5, 0)
                 after = min(index + 5, len(token_list) - 1)
                 max_tokens.append(tok)
                 max_acts.append(maximum)
-                max_phrases.append(' '.join(token_list[before: after]))
+                max_phrases.append(" ".join(token_list[before:after]))
             index += 1
 
     return (max_tokens, max_acts, max_phrases)
@@ -112,5 +112,5 @@ def get_max_activations(text, layer, neuron_index):
 
     # Print the max act token and its surrounding phrase
     for tok, act in zip(str_tokens, acts):
-        if (act == act_max):
+        if act == act_max:
             return (tok, act)
