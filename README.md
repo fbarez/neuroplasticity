@@ -1,4 +1,4 @@
-# Automated Identification of Potential Feature Neurons
+# Repository for Automated Identification of Potential Feature Neurons
 
 > Tool to automatically identify potential feature neurons in language models for further investigation.
 
