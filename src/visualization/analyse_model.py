@@ -27,7 +27,7 @@ class analyse_model:
         self.train_probe()
 
     def load_activations(self, model_path, activations_path):
-        model_path_type = model_path + model_checkpoint
+        model_path_type = model_path + "," + model_checkpoint
         transformers_extractor.extract_representations(
             model_path_type, token_inputs_path, activations_path, aggregation="average"
         )

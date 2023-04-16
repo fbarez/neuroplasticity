@@ -1,6 +1,6 @@
 from transformers import AutoModelForTokenClassification
 from src import model_max_neurons
-import train_model
+from src.models.train_model import train_model
 import torch
 
 

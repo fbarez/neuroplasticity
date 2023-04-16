@@ -8,7 +8,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-model-venv/
+venv/
 build/
 develop-eggs/
 dist/
@@ -88,3 +88,6 @@ target/
 
 # Mypy cache
 .mypy_cache/
+
+# Models
+models/

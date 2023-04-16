@@ -1,4 +1,3 @@
-from transformers import AutoTokenizer
 from evaluate import evaluator
 from src import tokenizer
 

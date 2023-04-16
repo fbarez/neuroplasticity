@@ -1,7 +1,7 @@
 from transformers import DataCollatorForTokenClassification
 from transformers import AutoModelForTokenClassification
 from transformers import TrainingArguments, Trainer
-from features.build_features import (
+from src.features.build_features import (
     get_token_class_label_names,
     tokenize_token_class_dataset,
 )
