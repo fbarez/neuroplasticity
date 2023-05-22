@@ -17,9 +17,9 @@ Development setup
 Set up a Python virtual environment and install the dependencies listed in `requirements.txt`.
 
 ```sh
-python3 -m venv venv
+python3.10 -m venv venv
 source venv/bin/activate
-python3 -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Process overview
