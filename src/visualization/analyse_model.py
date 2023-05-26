@@ -31,7 +31,6 @@ class analyse_model:
         transformers_extractor.extract_representations(
             model_path_type, token_inputs_path, activations_path, aggregation="average"
         )
-        os.system("!cut -c1-120 < " + activations_path)
         self.activations, num_layers = data_loader.load_activations(activations_path)
 
     def load_tokens(self):

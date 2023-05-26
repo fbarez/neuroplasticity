@@ -19,13 +19,25 @@ def get_basic_model(model_trainer):
         basic_model.save_pretrained(basic_model_path)
         return basic_model
 
-
-def get_retrained_model(pruned_path, model_trainer):
+def get_pruned_model(pruned_path, model_trainer):
     if os.path.exists(pruned_path):
+        # Get basic model for named entity recognition on pretrained DistilBert
+        print("Loading saved pruned model...")
+        pruned_model = AutoModelForTokenClassification.from_pretrained(
+            pruned_path,
+            id2label=model_trainer.id2label,
+            label2id=model_trainer.label2id,
+        )
+        return pruned_model
+    else:
+        print("No saved pruned model. Please prune from basic model!")
+
+def get_retrained_model(retrained_path, pruned_path, model_trainer):
+    if os.path.exists(retrained_path):
         # Get basic model for named entity recognition on pretrained DistilBert
         print("Loading saved retrained model...")
         retrained_model = AutoModelForTokenClassification.from_pretrained(
-            pruned_path,
+            retrained_path,
             id2label=model_trainer.id2label,
             label2id=model_trainer.label2id,
         )

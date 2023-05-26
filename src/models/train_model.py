@@ -64,8 +64,8 @@ class train_model:
         trainer = Trainer(
             model=model,
             args=args,
-            train_dataset=self.tokenized_datasets["train"],
-            eval_dataset=self.tokenized_datasets["validation"],
+            train_dataset=self.tokenized_dataset["train"],
+            eval_dataset=self.tokenized_dataset["validation"],
             data_collator=self.data_collator,
             compute_metrics=self.__compute_metrics,
             tokenizer=tokenizer,

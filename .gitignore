@@ -91,3 +91,6 @@ target/
 
 # Models
 models/
+
+# Environment
+neurox/
