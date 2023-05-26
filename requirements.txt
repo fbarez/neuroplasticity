@@ -81,7 +81,7 @@ nbconvert==7.3.1
 nbformat==5.8.0
 nest-asyncio==1.5.6
 networkx==3.0
--e git+https://github.com/mee-kell/NeuroX.git@9d5e425f3f966caa560c73a95733ae7a8ccc0288#egg=neurox
+neurox @ git+https://github.com/mee-kell/NeuroX@master
 nodeenv==1.7.0
 notebook==6.5.4
 notebook_shim==0.2.2
