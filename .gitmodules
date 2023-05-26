@@ -1,3 +1,3 @@
-[submodule "src/neuroX"]
-	path = src/neuroX
+[submodule "src/neurox_module"]
+	path = src/neurox_module
 	url = https://github.com/mee-kell/NeuroX.git
