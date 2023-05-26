@@ -1,11 +1,11 @@
 import os
-import neurox.data.extraction.transformers_extractor as transformers_extractor
-import neurox.data.loader as data_loader
-import neurox.interpretation.utils as utils
-import neurox.interpretation.linear_probe as linear_probe
-import neurox.interpretation.clustering as clustering
-import neurox.interpretation.probeless as probeless
-import neurox.analysis.corpus as corpus
+import src.neurox.neurox.data.extraction.transformers_extractor as transformers_extractor
+import src.neurox.neurox.data.loader as data_loader
+import src.neurox.neurox.interpretation.utils as utils
+import src.neurox.neurox.interpretation.linear_probe as linear_probe
+import src.neurox.neurox.interpretation.clustering as clustering
+import src.neurox.neurox.interpretation.probeless as probeless
+import src.neurox.neurox.analysis.corpus as corpus
 from collections import defaultdict
 from src import token_inputs_path, token_labels_path, model_checkpoint
 
