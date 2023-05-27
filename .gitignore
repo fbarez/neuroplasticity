@@ -78,6 +78,7 @@ target/
 
 # exclude data from source control by default
 /data/external
+/data/interim/*.json
 
 # Mac OS-specific storage files
 .DS_Store
