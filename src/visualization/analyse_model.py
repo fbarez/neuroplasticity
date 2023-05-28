@@ -28,9 +28,10 @@ class analyse_model:
 
     def load_activations(self, model_path, activations_path):
         model_path_type = model_path + "," + model_checkpoint
-        transformers_extractor.extract_representations(
-            model_path_type, token_inputs_path, activations_path, aggregation="average"
-        )
+        if not os.path.exists(activations_path):
+            transformers_extractor.extract_representations(
+                model_path_type, token_inputs_path, activations_path, aggregation="average"
+            )
         self.activations, num_layers = data_loader.load_activations(activations_path)
 
     def load_tokens(self):
@@ -78,8 +79,7 @@ class analyse_model:
         return associated_neurons
 
     def show_top_words(self, concept_neurons):
+        top_words = {}
         for neuron_idx in concept_neurons:
-            print(
-                neuron_idx,
-                corpus.get_top_words(self.tokens, self.activations, neuron_idx),
-            )
+            top_words[neuron_idx] = corpus.get_top_words(self.tokens, self.activations, neuron_idx)
+        return top_words
