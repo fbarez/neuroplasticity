@@ -77,7 +77,7 @@ target/
 .ipynb_checkpoints/
 
 # exclude large data files from source control by default
-/data/external
+/data/external/bert-concept-net
 /data/interim/*.json
 /data/processed/*.csv
 
