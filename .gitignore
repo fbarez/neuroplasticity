@@ -92,9 +92,9 @@ target/
 .mypy_cache/
 
 # Models
-models/basic_model/
-models/pruned_model/
-models/retrained_model/
+basic_model/
+pruned_model/
+retrained_model/
 
 # Environment
 neurox_module/

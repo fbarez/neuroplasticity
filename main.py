@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from src import basic_model_path, basic_activations_path, pruned_model_path, retrained_model_path, retrained_activations_path
 
 from src.models.train_model import train_model
@@ -9,7 +10,7 @@ from src.visualization.analyse_model import analyse_model
 from src.models.prune_model import prune_model
 from src.models.evaluate_model import evaluate
 
-# To run: python3 -m src.remap
+# To run: python3 main.py
 
 def train_basic(model_trainer, dataset):
     # Train and evaluate a basic model on pretrained DistilBert
@@ -24,7 +25,7 @@ def find_neurons_to_prune():
     basic_top_words = basic_analyser.show_top_words(neurons_to_prune)
     prune_df = pd.DataFrame(data=basic_top_words.items(), columns=[
                             'neuron_id', 'top_words'])
-    prune_df.to_csv('../data/processed/locations_prune.csv')
+    prune_df.to_csv('data/processed/locations_prune.csv')
     return basic_analyser, neurons_to_prune
 
 
@@ -48,6 +49,10 @@ def retrain_pruned(model_trainer):
 
 def main():
     print("Running remapping experiment...")
+    # print(os.path.exists(basic_model_path))
+    # print(os.path.exists("data/interim/location_tokens.txt"))
+    # print(os.path.exists(basic_activations_path))
+
     dataset = load_token_class_dataset()
     model_trainer = train_model()
     train_basic(model_trainer, dataset)
@@ -60,7 +65,7 @@ def main():
     pre_top_words = basic_analyser.show_top_words(new_concept_neurons)
     plastic_df = pd.DataFrame(data=[pre_top_words.items(), post_top_words.items(
     )], columns=['neuron_id', 'pre_top_words', 'post_top_words'])
-    plastic_df.to_csv('../data/processed/locations_plastic.csv')
+    plastic_df.to_csv('data/processed/locations_plastic.csv')
 
 
 if __name__ == '__main__':

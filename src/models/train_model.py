@@ -26,7 +26,7 @@ class train_model:
         )
 
         args = TrainingArguments(
-            "base_model",
+            "basic_model",
             evaluation_strategy="epoch",
             save_strategy="epoch",
             learning_rate=2e-5,
