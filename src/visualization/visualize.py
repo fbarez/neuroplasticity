@@ -45,5 +45,5 @@ def get_retrained_model(retrained_path, pruned_path, model_trainer):
     else:
         print("Retraining pruned model...")
         retrained_model = model_trainer.retrain_pruned_model(pruned_path)
-        retrained_model.save_pretrained(pruned_path)
+        retrained_model.save_pretrained(retrained_path)
         return retrained_model
