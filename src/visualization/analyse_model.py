@@ -81,5 +81,8 @@ class analyse_model:
     def show_top_words(self, concept_neurons):
         top_words = {}
         for neuron_idx in concept_neurons:
-            top_words[neuron_idx] = corpus.get_top_words(self.tokens, self.activations, neuron_idx)
+            words = corpus.get_top_words(self.tokens, self.activations, neuron_idx)
+            top_words[neuron_idx] = words
+            print(f"== {neuron_idx} ==")
+            print(words)
         return top_words
