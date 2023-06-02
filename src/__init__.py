@@ -10,3 +10,5 @@ token_inputs_path = "data/interim/location_tokens.txt"
 token_labels_path = "data/interim/location_labels.txt"
 basic_activations_path = "data/interim/basic_activations.json"
 retrained_activations_path = "data/interim/retrained_activations.json"
+
+location_remap_path = "data/processed/locations_plastic.csv"
