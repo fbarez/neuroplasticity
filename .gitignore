@@ -80,6 +80,8 @@ target/
 /data/external/bert-concept-net
 /data/interim/*.json
 /data/processed/*.csv
+/data/processed/*.out
+*.tar.gz
 
 # Mac OS-specific storage files
 .DS_Store
