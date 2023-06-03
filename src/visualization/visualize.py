@@ -47,3 +47,19 @@ def get_retrained_model(retrained_path, pruned_path, model_trainer):
         retrained_model = model_trainer.retrain_pruned_model(pruned_path)
         retrained_model.save_pretrained(retrained_path)
         return retrained_model
+
+def get_incr_retrained_model(post_model_path, pre_model_path, model_trainer):
+    if os.path.exists(post_model_path):
+        # Get basic model for named entity recognition on pretrained DistilBert
+        print("Loading saved retrained model...")
+        retrained_model = AutoModelForTokenClassification.from_pretrained(
+            post_model_path,
+            id2label=model_trainer.id2label,
+            label2id=model_trainer.label2id,
+        )
+        return retrained_model
+    else:
+        print("Retraining pruned model...")
+        retrained_model = model_trainer.retrain_model_incr(pre_model_path)
+        retrained_model.save_pretrained(post_model_path)
+        return retrained_model

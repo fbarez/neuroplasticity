@@ -19,8 +19,8 @@ class analyse_model:
         self.idx2label = None
         self.label2idx = None
         self.probe = None
-        self.cluster_labels = None
-        self.cluster_map = defaultdict(list)
+        # self.cluster_labels = None
+        # self.cluster_map = defaultdict(list)
 
         self.load_activations(model_path, activations_path)
         self.load_tokens()
@@ -51,32 +51,32 @@ class analyse_model:
         )
         print(scores)
 
-    def identify_clusters(self):
-        self.cluster_labels = clustering.create_correlation_clusters(self.X)
-        # Convert cluster labels list to dictionary
-        for idx in range(len(self.cluster_labels)):
-            label = self.cluster_labels[idx]
-            self.cluster_map[label].append(idx)
+    # def identify_clusters(self):
+    #     self.cluster_labels = clustering.create_correlation_clusters(self.X)
+    #     # Convert cluster labels list to dictionary
+    #     for idx in range(len(self.cluster_labels)):
+    #         label = self.cluster_labels[idx]
+    #         self.cluster_map[label].append(idx)
 
     def identify_concept_neurons(self):
-        self.identify_clusters()
+        # self.identify_clusters()
         top_neurons = probeless.get_neuron_ordering_for_tag(
             self.X, self.y, self.label2idx, "SEM:named_entity:location"
         )
 
         # Identify clusters containing concept neurons
-        concept_clusters = []
-        for neuron_idx in top_neurons:
-            if self.cluster_labels[neuron_idx] - 1 not in concept_clusters:
-                concept_clusters.append(self.cluster_labels[neuron_idx] - 1)
+        # concept_clusters = []
+        # for neuron_idx in top_neurons:
+        #     if self.cluster_labels[neuron_idx] - 1 not in concept_clusters:
+        #         concept_clusters.append(self.cluster_labels[neuron_idx] - 1)
 
         # get all neurons associated with identified clusters
-        associated_neurons = []
-        for cluster_idx in concept_clusters:
-            associated_neurons += self.cluster_map[cluster_idx]
-        print(associated_neurons)
+        # associated_neurons = []
+        # for cluster_idx in concept_clusters:
+        #     associated_neurons += self.cluster_map[cluster_idx]
+        # print(associated_neurons)
 
-        return associated_neurons
+        return top_neurons
 
     def show_top_words(self, concept_neurons):
         top_words = {}

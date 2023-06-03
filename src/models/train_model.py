@@ -73,6 +73,32 @@ class train_model:
         trainer.train()
         return model
 
+    def retrain_model_incr(self, pre_model_path):
+        model = AutoModelForTokenClassification.from_pretrained(
+            pre_model_path,
+            id2label=self.id2label,
+            label2id=self.label2id,
+        )
+        args = TrainingArguments(
+            "retrained_model",
+            evaluation_strategy="epoch",
+            save_strategy="epoch",
+            learning_rate=2e-5,
+            num_train_epochs=2,
+            weight_decay=0.01,
+        )
+        trainer = Trainer(
+            model=model,
+            args=args,
+            train_dataset=self.tokenized_dataset["train"],
+            eval_dataset=self.tokenized_dataset["validation"],
+            data_collator=self.data_collator,
+            compute_metrics=self.__compute_metrics,
+            tokenizer=tokenizer,
+        )
+        trainer.train()
+        return model
+
     def __compute_metrics(self, eval_preds):
         logits, labels = eval_preds
         predictions = np.argmax(logits, axis=-1)
