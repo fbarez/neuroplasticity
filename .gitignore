@@ -94,9 +94,8 @@ target/
 .mypy_cache/
 
 # Models
-basic_model/
-pruned_model/
-retrained_model/
+models/
+!models/.gitkeep
 
 # Environment
 neurox_module/

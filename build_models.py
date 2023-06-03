@@ -3,6 +3,7 @@ from src.models.train_model import train_model
 from src.features.build_features import load_token_class_dataset
 from src.visualization.visualize import get_basic_model, get_incr_retrained_model
 from src.models.prune_model import prune_model
+from src.visualization.analyse_model import analyse_model
 from src.models.evaluate_model import evaluate
 
 RETRAIN_INCR_1 = "models/retrained_model_1"
