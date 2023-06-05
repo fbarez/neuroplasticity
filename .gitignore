@@ -79,7 +79,7 @@ target/
 # exclude large data files from source control by default
 /data/external/bert-concept-net
 /data/interim/*.json
-/data/processed/*.csv
+!/data/processed/models/.gitkeep
 /data/processed/*.out
 *.tar.gz
 

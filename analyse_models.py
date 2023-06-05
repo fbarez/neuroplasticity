@@ -1,6 +1,7 @@
 from build_models import RETRAIN_INCR_1, RETRAIN_INCR_2, RETRAIN_INCR_3, RETRAIN_INCR_4
 from src import basic_model_path, basic_activations_path
 from src.visualization.analyse_model import analyse_model
+import pandas as pd
 
 ACTIVATIONS_INCR_1 = "data/interim/retrained_activations_1.json"
 ACTIVATIONS_INCR_2 = "data/interim/retrained_activations_2.json"
@@ -21,7 +22,7 @@ def compare_tokens(model_path, activations_path, analyser, analyser_1, analyser_
     df['concepts_2'] = top_words_2.values()
     df['concepts_3'] = top_words_3.values()
     df['concepts_4'] = top_words_4.values()
-    df.to_csv(f'data/processed/{model_path}_concepts.csv', model_path)
+    df.to_csv(f'data/processed/{model_path}_concepts.csv')
 
 def main():
     base_analyser = analyse_model(basic_model_path, basic_activations_path)

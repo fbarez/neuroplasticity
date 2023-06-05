@@ -58,7 +58,7 @@ class train_model:
             evaluation_strategy="epoch",
             save_strategy="epoch",
             learning_rate=2e-5,
-            num_train_epochs=8,
+            num_train_epochs=10,
             weight_decay=0.01,
         )
         trainer = Trainer(
@@ -84,7 +84,7 @@ class train_model:
             evaluation_strategy="epoch",
             save_strategy="epoch",
             learning_rate=2e-5,
-            num_train_epochs=2,
+            num_train_epochs=3,
             weight_decay=0.01,
         )
         trainer = Trainer(
