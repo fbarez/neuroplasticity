@@ -15,18 +15,16 @@ def prune_model(model_path: str, model_trainer: train_model, neurons_to_ablate):
         # Access the layer's weights
         weights = pruned_model.distilbert.transformer.layer[
             layer_id - 1
-        ].output_layer_norm.weight
+        ].output_layer_norm.weight.data
         biases = pruned_model.distilbert.transformer.layer[
             layer_id - 1
-        ].output_layer_norm.bias
+        ].output_layer_norm.bias.data
         # Prune the specified neuron by setting its weight and bias to zero
-        weights.data[neuron_index] = torch.zeros_like(
-            weights.data[neuron_index])
-        biases.data[neuron_index] = torch.zeros_like(
-            biases.data[neuron_index])
+        weights[neuron_index] = torch.zeros_like(weights[neuron_index])
+        biases[neuron_index] = torch.zeros_like(biases[neuron_index])
         # Freeze the weights such that they are not updated during retraining
-        weights.requires_grad = False
-        biases.requires_grad = False
+        # weights.requires_grad = False
+        # biases.requires_grad = False
 
     return pruned_model
 
