@@ -19,7 +19,7 @@ def build_pruned_model(model_trainer, dataset):
     # Identify neurons in the basic model to ablate
     basic_analyser = analyse_model(basic_model_path, basic_activations_path)
     neurons_to_prune = basic_analyser.identify_concept_neurons()
-    pruned_model = prune_model(basic_model_path, model_trainer, neurons_to_prune)
+    pruned_model = prune_model(basic_model_path, model_trainer, neurons_to_prune[:2500])
     pruned_model.save_pretrained(pruned_model_path)
     evaluate(pruned_model, dataset["validation"])
 

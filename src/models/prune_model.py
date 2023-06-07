@@ -23,8 +23,8 @@ def prune_model(model_path: str, model_trainer: train_model, neurons_to_ablate):
         weights[neuron_index] = torch.zeros_like(weights[neuron_index])
         biases[neuron_index] = torch.zeros_like(biases[neuron_index])
         # Freeze the weights such that they are not updated during retraining
-        # weights.requires_grad = False
-        # biases.requires_grad = False
+        weights.requires_grad = False
+        biases.requires_grad = False
 
     return pruned_model
 
