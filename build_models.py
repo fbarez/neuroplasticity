@@ -6,10 +6,10 @@ from src.models.prune_model import prune_model
 from src.visualization.analyse_model import analyse_model
 from src.models.evaluate_model import evaluate
 
-RETRAIN_INCR_1 = "models/retrained_model_1"
-RETRAIN_INCR_2 = "models/retrained_model_2"
-RETRAIN_INCR_3 = "models/retrained_model_3"
-RETRAIN_INCR_4 = "models/retrained_model_4"
+RETRAIN_INCR_1 = "models/retrained_name_model_1"
+RETRAIN_INCR_2 = "models/retrained_name_model_2"
+RETRAIN_INCR_3 = "models/retrained_name_model_3"
+RETRAIN_INCR_4 = "models/retrained_name_model_4"
 
 def build_base_model(model_trainer, dataset):
     basic_model = get_basic_model(model_trainer)

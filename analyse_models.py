@@ -3,10 +3,10 @@ from src import basic_model_path, basic_activations_path
 from src.visualization.analyse_model import analyse_model
 import pandas as pd
 
-ACTIVATIONS_INCR_1 = "data/interim/retrained_activations_1.json"
-ACTIVATIONS_INCR_2 = "data/interim/retrained_activations_2.json"
-ACTIVATIONS_INCR_3 = "data/interim/retrained_activations_3.json"
-ACTIVATIONS_INCR_4 = "data/interim/retrained_activations_4.json"
+ACTIVATIONS_INCR_1 = "data/interim/retrained_name_activations_1.json"
+ACTIVATIONS_INCR_2 = "data/interim/retrained_name_activations_2.json"
+ACTIVATIONS_INCR_3 = "data/interim/retrained_name_activations_3.json"
+ACTIVATIONS_INCR_4 = "data/interim/retrained_name_activations_4.json"
 
 def compare_tokens(model_path, activations_path, analyser, analyser_1, analyser_2, analyser_3, analyser_4):
     # Extract top activating neurons for a model

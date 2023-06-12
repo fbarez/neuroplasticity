@@ -61,7 +61,8 @@ class analyse_model:
     def identify_concept_neurons(self):
         # self.identify_clusters()
         top_neurons = probeless.get_neuron_ordering_for_tag(
-            self.X, self.y, self.label2idx, "SEM:named_entity:location"
+            self.X, self.y, self.label2idx, "SEM:named_entity:person"
+            # self.X, self.y, self.label2idx, "SEM:named_entity:location"
         )
 
         # Identify clusters containing concept neurons
