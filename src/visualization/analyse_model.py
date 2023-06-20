@@ -51,31 +51,12 @@ class analyse_model:
         )
         print(scores)
 
-    # def identify_clusters(self):
-    #     self.cluster_labels = clustering.create_correlation_clusters(self.X)
-    #     # Convert cluster labels list to dictionary
-    #     for idx in range(len(self.cluster_labels)):
-    #         label = self.cluster_labels[idx]
-    #         self.cluster_map[label].append(idx)
-
     def identify_concept_neurons(self):
         # self.identify_clusters()
         top_neurons = probeless.get_neuron_ordering_for_tag(
-            self.X, self.y, self.label2idx, "SEM:named_entity:person"
-            # self.X, self.y, self.label2idx, "SEM:named_entity:location"
+            # self.X, self.y, self.label2idx, "SEM:named_entity:person"
+            self.X, self.y, self.label2idx, "SEM:named_entity:location"
         )
-
-        # Identify clusters containing concept neurons
-        # concept_clusters = []
-        # for neuron_idx in top_neurons:
-        #     if self.cluster_labels[neuron_idx] - 1 not in concept_clusters:
-        #         concept_clusters.append(self.cluster_labels[neuron_idx] - 1)
-
-        # get all neurons associated with identified clusters
-        # associated_neurons = []
-        # for cluster_idx in concept_clusters:
-        #     associated_neurons += self.cluster_map[cluster_idx]
-        # print(associated_neurons)
 
         return top_neurons
 
