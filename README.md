@@ -1,56 +1,94 @@
-# Repository for Automated Identification of Potential Feature Neurons
+# Repository for Investigation of Conceptual Neuroplasticity in Language Models
 
-> Tool to automatically identify potential feature neurons in language models for further investigation.
+> Aim: investigate the relationship between groups of concept neurons, using the inherent plasticity of artificial neural networks.
 
-This repository introduces an automated method of identifying and verifying potential feature neurons in language models, based on analysing maximum activation tokens over a diversified dataset.
+Usage instructions
+------------
 
-## Usage instructions
+Functions for training, pruning and evaluating models are in `src/models`. Functions for analysing models using the [NeuroX](https://neurox.qcri.org/docs/index.html#) library are in `src/visualization`.
 
-Configure desired parameters in the Juypter notebook (`auto-feature-neuron-identification.ipynb`):
-- Model layer number (middle layers are recommended)
-- Model name, e.g. "solu-8l-pile"
-- Number of neurons to analyse at once from the model layer
-- Similarity threshold (between -1 and 1), i.e. how similar do phrases which activate a neuron need to be, in order for this neuron to be classed as a potential feature neuron?
-- Normalised activation threshold (between 0 and 1), i.e. what is the minimum activation score (relative to other neurons analysed) required for a potential feature neuron?
-- Number of synonyms to substitute for each word in a maximum activation phrase during verification
+Variables storing path information, e.g. string paths to saved models, are in `src/__init__.py`. Modify or add new variables related to paths or model-specific metadata here.
 
-Run the code block containing the `id_feature_neuron_results` function, which will return a `pandas` dataframe of results. Each row represents a potential feature neuron and shows its index, average activation score, a description of its maximum activation phrases, and the maximum activation phrases.
+See the Juypter notebook at `notebooks/locations.ipynb` for an example of pruning concept neurons related to location names, and examining how this concept reappears after retraining the pruned model.
 
-## Development setup
+Development setup
+------------
 
-Set up a virtual Python environment using `conda`. Import the dependencies listed in `environment.yml`.
+Set up a Python virtual environment and install the dependencies listed in `requirements.txt`.
 
 ```sh
-conda env create -n ENVNAME --file environment.yml
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-## Process overview
+Process overview
+------------
 
-1. Identification: Detect neurons which activate on similar tokens.
+We identify a cluster of neurons related to a specific concept, ablate them, and train the model post-ablation.
 
-    Scrape the top 20 text samples which activate each neuron the most from Neuroscope, as well as their activation scores.
+* Expectation: we can continue training until the model re-learns the same task.
+* Expectation: existing neurons learn new functionality and become polysemantic.
+* Unknown: which neurons are now responsible for handling subconcepts?
+* Unknown: does the same concept still exist, or is it handled by a different process?
+* Unknown: if a neuron becomes polysemantic, are the multiple concepts existing in that one neuron similar in any way?
+* Unknown: is there a pattern which can be linked to the theory of superposition?
 
-    Identify the maximum activation token (MAT) in each text sample and its surrounding tokens (5 previous and consecutive tokens) for context. The surrounding tokens constitute the maximum activation phrase (MAP).
+Our main contributions are as follows:
 
-    Calculate similarity score among MAPs. Use FastText to compare every MAP to every other MAP in the set of text samples, and average similarity scores.
+* We demonstrate the synaptic and functional plasticity of artificial neural networks after explicitly pruning salient neurons and fine-tuning.
+* We investigate the relationship between groups of concept neurons in terms of how they might learn to take on each others' semantics.
+* We present preliminary studies into how we can force specific (?) neurons to become polysemantic by leveraging the plasticity of neural networks during pruning.
 
-    Flag neuron for further investigation if similarity between phrases is above a certain threshold.
 
-2. Verification: Verify the type of input which causes neuron activation.
 
-    Retrieve top 5 most similar tokens for each word in each MAP using FastText.
+Project Organization
+------------
 
-    Substitute each synonym into the original sentence and measure the new activation score for this modified phrase. (If activation score increases, we can include the new phrase as an MAP during the generation phase.)
-
-    Calculate average activation score over total number of phrase variations checked. 
-
-    Normalise activation scores by dividing each score by the maximum activation score found among all neurons in a network layer.
-
-    Neurons with a normalised score above a certain threshold are displayed as potential feature neurons.
-
-3. Generation: Generate description of relationship between activation tokens.
-
-    Connect to OpenAI’s GPT-3 API and prompt it to generate a description for the common relationship between the list of MATs.
+    ├── LICENSE
+    ├── Makefile           <- Makefile with commands like `make data` or `make train`
+    ├── README.md          <- The top-level README for developers using this project.
+    ├── data
+    │   ├── external       <- Data from third party sources.
+    │   ├── interim        <- Intermediate data that has been transformed.
+    │   ├── processed      <- The final, canonical data sets for modeling.
+    │   └── raw            <- The original, immutable data dump.
+    │
+    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    │
+    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    │
+    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
+    │                         the creator's initials, and a short `-` delimited description, e.g.
+    │                         `1.0-jqp-initial-data-exploration`.
+    │
+    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    │
+    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+    │   └── figures        <- Generated graphics and figures to be used in reporting
+    │
+    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
+    │                         generated with `pip freeze > requirements.txt`
+    │
+    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
+    ├── src                <- Source code for use in this project.
+    │   ├── __init__.py    <- Makes src a Python module
+    │   │
+    │   ├── data           <- Scripts to download or generate data
+    │   │   └── make_dataset.py
+    │   │
+    │   ├── features       <- Scripts to turn raw data into features for modeling
+    │   │   └── build_features.py
+    │   │
+    │   ├── models         <- Scripts to train models and then use trained models to make
+    │   │   │                 predictions
+    │   │   ├── predict_model.py
+    │   │   └── train_model.py
+    │   │
+    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
+    │       └── visualize.py
+    │
+    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 ## License
 
