@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer
 
 model_max_neurons = 768
-model_checkpoint = 'xlnet-base-cased'
+model_checkpoint = 'google/electra-base-discriminator'
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 basic_model_path = "models/basic_model"
 pruned_model_path = "models/pruned_model"

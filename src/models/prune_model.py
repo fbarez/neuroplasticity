@@ -16,7 +16,7 @@ def prune_model(model_path: str, model_trainer: train_model, neurons_to_ablate):
         # weights = pruned_model.distilbert.transformer.layer[
         #     layer_id - 1
         # ].output_layer_norm.weight.data
-        weights = pruned_model.transformer.layer[layer_id - 1].ff.layer_norm.weight.data
+        weights = pruned_model.electra.encoder.layer[layer_id - 1].output.LayerNorm.weight.data
         # Prune the specified neuron by setting its weight to zero
         weights[neuron_index] = torch.zeros_like(weights[neuron_index])
         # Freeze the weights such that they are not updated during retraining
