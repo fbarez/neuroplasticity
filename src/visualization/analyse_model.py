@@ -19,8 +19,6 @@ class analyse_model:
         self.idx2label = None
         self.label2idx = None
         self.probe = None
-        # self.cluster_labels = None
-        # self.cluster_map = defaultdict(list)
 
         self.load_activations(model_path, activations_path)
         self.load_tokens()
@@ -52,12 +50,8 @@ class analyse_model:
         print(scores)
 
     def identify_concept_neurons(self):
-        # self.identify_clusters()
-        top_neurons = probeless.get_neuron_ordering_for_tag(
-            # self.X, self.y, self.label2idx, "SEM:named_entity:person"
-            self.X, self.y, self.label2idx, "SEM:named_entity:location"
-        )
-        return top_neurons
+        top_neurons, top_neurons_per_class = linear_probe.get_top_neurons(probe, 0.5, label2idx)
+        return top_neurons_per_class['SEM:named_entity:location']
 
     def show_top_words(self, concept_neurons):
         top_words = {}
