@@ -21,8 +21,6 @@ class analyse_model:
         self.probe = None
 
         self.load_activations(model_path, activations_path)
-        self.load_tokens()
-        self.train_probe()
 
     def load_activations(self, model_path, activations_path):
         model_path_type = model_path + "," + model_checkpoint
@@ -50,10 +48,16 @@ class analyse_model:
         print(scores)
 
     def identify_concept_neurons(self):
+        if self.tokens is None:
+            self.load_tokens()
+        if self.probe is None:
+            self.train_probe()
         top_neurons, top_neurons_per_class = linear_probe.get_top_neurons(probe, 0.5, label2idx)
         return top_neurons_per_class['SEM:named_entity:location']
 
     def show_top_words(self, concept_neurons):
+        if self.tokens is None:
+            self.load_tokens()
         top_words = {}
         for neuron_idx in concept_neurons:
             words = corpus.get_top_words(self.tokens, self.activations, neuron_idx, 5)
