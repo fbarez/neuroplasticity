@@ -52,7 +52,7 @@ class analyse_model:
             self.load_tokens()
         if self.probe is None:
             self.train_probe()
-        top_neurons, top_neurons_per_class = linear_probe.get_top_neurons(self.probe, 0.5, self.label2idx)
+        top_neurons, top_neurons_per_class = linear_probe.get_top_neurons(self.probe, 1, self.label2idx)
         return top_neurons_per_class['SEM:named_entity:location']
 
     def show_top_words(self, concept_neurons):
