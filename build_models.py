@@ -20,8 +20,7 @@ def build_pruned_model(model_trainer, dataset):
     basic_analyser = analyse_model(basic_model_path, basic_activations_path)
     neurons_to_prune = basic_analyser.identify_concept_neurons()
     num_prune = (768 * 7) // 2
-    # Neurons to prune are sorted by weight in ascending order. Prune most important from end of list.
-    pruned_model = prune_model(basic_model_path, model_trainer, neurons_to_prune[-num_prune:])
+    pruned_model = prune_model(basic_model_path, model_trainer, neurons_to_prune[:num_prune])
     pruned_model.save_pretrained(pruned_model_path)
     evaluate(pruned_model, dataset["validation"])
 
