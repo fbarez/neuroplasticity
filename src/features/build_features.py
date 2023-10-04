@@ -15,7 +15,6 @@ def get_token_class_label_names():
 
 def tokenize_token_class_dataset():
     raw_dataset = load_token_class_dataset()
-    # inputs = tokenizer(raw_dataset["train"][0]["tokens"], is_split_into_words=True)
     tokenized_dataset = raw_dataset.map(
         __tokenize_and_align_labels,
         batched=True,

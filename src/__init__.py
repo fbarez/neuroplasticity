@@ -1,15 +1,20 @@
 from transformers import AutoTokenizer
 
-model_max_neurons = 768
-model_checkpoint = "distilbert-base-cased"
-tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
-basic_model_path = "models/basic_model"
-pruned_model_path = "models/pruned_model"
-retrained_model_path = "models/retrained_model"
-token_inputs_path = "data/interim/location_tokens.txt"
-token_labels_path = "data/interim/location_labels.txt"
-basic_activations_path = "data/interim/basic_activations.json"
-retrained_activations_path = "data/interim/retrained_activations.json"
+# Model specific constants
+NEURONS_PER_LAYER = 768
+NUM_LAYERS = 7
+MODEL_CHECKPOINT = "distilbert-base-cased"
+tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
+
+BASIC_MODEL_PATH = "models/basic_model"
+PRUNED_MODEL_PATH = "models/pruned_model"
+RETRAINED_MODEL_PATH = "models/retrained_model"
+
+CONCEPT_LABEL = "SEM:named_entity:location"
+TOKENS_INPUT_PATH = "data/interim/location_tokens.txt"
+TOKENS_LABEL_PATH = "data/interim/location_labels.txt"
+BASIC_ACTIVATIONS_PATH = "data/interim/basic_activations.json"
+RETRAINED_ACTIVATIONS_PATH = "data/interim/retrained_activations.json"
 
 BASE_CONCEPT_PATH = "data/processed/basic_model_concepts.csv"
 PROCESSED_1 = "data/processed/retrained_model_1_concepts.csv"
