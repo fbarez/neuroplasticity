@@ -1,10 +1,11 @@
-from src import BASIC_MODEL_PATH, BASIC_ACTIVATIONS_PATH, PRUNED_MODEL_PATH, NEURONS_PER_LAYER, NUM_LAYERS
+from src import BASIC_MODEL_PATH, BASIC_ACTIVATIONS_PATH, PRUNED_MODEL_PATH, NEURONS_PER_LAYER, NUM_LAYERS, SIMILARITY_1, SIMILARITY_2, SIMILARITY_3, SIMILARITY_4
 from src.models.ModelTrainer import ModelTrainer
 from src.features.build_features import load_token_class_dataset
 from src.visualization.get_models import get_basic_model, get_incr_retrained_model
 from src.models.prune_model import prune_model
 from src.visualization.ModelAnalyzer import ModelAnalyzer
 from src.models.evaluate_model import evaluate
+from src.visualization.results_utils import compare_similarity
 import pandas as pd
 
 RETRAIN_INCR_1_PATH = "models/retrained_model_1"
@@ -75,7 +76,15 @@ def analyse_models():
     compare_tokens(RETRAIN_INCR_2_PATH, retrain_2_analyser, base_analyser, retrain_1_analyser, retrain_3_analyser, retrain_4_analyser)
     compare_tokens(RETRAIN_INCR_3_PATH, retrain_3_analyser, base_analyser, retrain_1_analyser, retrain_2_analyser, retrain_4_analyser)
     compare_tokens(RETRAIN_INCR_4_PATH, retrain_4_analyser, base_analyser, retrain_1_analyser, retrain_2_analyser, retrain_3_analyser)
-    
+
+def analyse_similarity(concepts_data_path, similarity_data_path):
+    df = compare_similarity(concepts_data_path, "concepts_1")
+    df.to_csv(similarity_data_path)
+
 if __name__ == '__main__':
     build_models()
     analyse_models()
+    analyse_similarity(RETRAIN_INCR_1_PATH, SIMILARITY_1)
+    analyse_similarity(RETRAIN_INCR_2_PATH, SIMILARITY_2)
+    analyse_similarity(RETRAIN_INCR_3_PATH, SIMILARITY_3)
+    analyse_similarity(RETRAIN_INCR_4_PATH, SIMILARITY_4)

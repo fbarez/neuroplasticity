@@ -2,7 +2,7 @@ from transformers import AutoTokenizer
 
 # Model specific constants
 NEURONS_PER_LAYER = 768
-NUM_LAYERS = 7
+NUM_LAYERS = 6
 MODEL_CHECKPOINT = "distilbert-base-cased"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
 

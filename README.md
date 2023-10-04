@@ -2,17 +2,23 @@
 
 > Aim: investigate the relationship between groups of concept neurons, using the inherent plasticity of artificial neural networks.
 
-Usage instructions
-------------
+## Usage instructions
 
-Functions for training, pruning and evaluating models are in `src/models`. Functions for analysing models using the [NeuroX](https://neurox.qcri.org/docs/index.html#) library are in `src/visualization`.
+Download the data (labels and tokens for a specific concept) from BERT Concept Net. Use `src/data/download_data.sh` to download labels and tokens for the concept of locations - feel free to modify the script if needed.
 
-Variables storing path information, e.g. string paths to saved models, are in `src/__init__.py`. Modify or add new variables related to paths or model-specific metadata here.
+```sh
+./src/data/download_data.sh
+```
 
-See the Juypter notebook at `notebooks/locations.ipynb` for an example of pruning concept neurons related to location names, and examining how this concept reappears after retraining the pruned model.
+Run the methodology to generate data about a model which undergoes ablation and retraining. This will build a base model, prune the top concept neurons, retrain the model and generate data about top activating neurons and top activating tokens throughout the process.
 
-Development setup
-------------
+```sh
+python3 run.py
+```
+
+See the Jupyter notebook at `notebooks/analysis.ipynb` to produce graphs and tables to analyze the redistribution of concepts during the process of neuroplasticity.
+
+## Development setup
 
 Set up a Python virtual environment and install the dependencies listed in `requirements.txt`.
 
@@ -22,74 +28,58 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Process overview
-------------
+Functions for training, pruning and evaluating models are in `src/models`. Functions for analysing models using the [NeuroX](https://neurox.qcri.org/docs/index.html#) library are in `src/visualization`.
 
-We identify a cluster of neurons related to a specific concept, ablate them, and train the model post-ablation.
+Variables storing path information, e.g. string paths to saved models, are in `src/__init__.py`. Modify or add new variables related to paths or model-specific metadata here.
 
-* Expectation: we can continue training until the model re-learns the same task.
-* Expectation: existing neurons learn new functionality and become polysemantic.
-* Unknown: which neurons are now responsible for handling subconcepts?
-* Unknown: does the same concept still exist, or is it handled by a different process?
-* Unknown: if a neuron becomes polysemantic, are the multiple concepts existing in that one neuron similar in any way?
-* Unknown: is there a pattern which can be linked to the theory of superposition?
+See the Jupyter notebook at `notebooks/locations.ipynb` for an example of pruning concept neurons related to location names, and examining how this concept reappears after retraining the pruned model.
 
-Our main contributions are as follows:
+### Paper
 
-* We demonstrate the synaptic and functional plasticity of artificial neural networks after explicitly pruning salient neurons and fine-tuning.
-* We investigate the relationship between groups of concept neurons in terms of how they might learn to take on each others' semantics.
-* We present preliminary studies into how we can force specific (?) neurons to become polysemantic by leveraging the plasticity of neural networks during pruning.
+TODO: add link to paper when released!
 
-
-
-Project Organization
-------------
+## Project Organization
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    │   ├── interim        <- Data for tokens annotated with concept labels.
+    │   ├── processed      <- The final, canonical data sets for analysis.
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    ├── notebooks          <- Jupyter notebooks.
+    │   └── analysis       <- Produce graphs and tables for analysis of concept redistribution.
+    │   └── locations      <- Example of pruning concept neurons for location names and retraining
+    │   └── saliency       <- Create concept saliency heatmaps across the model.
+    │   └── similarity     <- Create concept similarity heatmaps across the model.
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
     │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
+    │   │   └── download_data.sh
     │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
+    │   ├── features       <- Scripts to turn data into features for modeling
     │   │   └── build_features.py
     │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   │   ├── evaluate_model.py
+    │   │   └── prune_model.py
+    │   │   └── ModelTrainer.py
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    │       ├── get_models.py
+    │       └── results_utils.py
+    │       └── ModelAnalyzer.py
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 ## License
 
-Distributed under the MIT license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See `LICENSE` for more information.
