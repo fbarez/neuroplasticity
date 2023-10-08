@@ -84,7 +84,7 @@ def analyse_similarity(concepts_data_path, similarity_data_path):
 if __name__ == '__main__':
     build_models()
     analyse_models()
-    analyse_similarity(RETRAIN_INCR_1_PATH, SIMILARITY_1)
-    analyse_similarity(RETRAIN_INCR_2_PATH, SIMILARITY_2)
-    analyse_similarity(RETRAIN_INCR_3_PATH, SIMILARITY_3)
-    analyse_similarity(RETRAIN_INCR_4_PATH, SIMILARITY_4)
+    # analyse_similarity(RETRAIN_INCR_1_PATH, SIMILARITY_1)
+    # analyse_similarity(RETRAIN_INCR_2_PATH, SIMILARITY_2)
+    # analyse_similarity(RETRAIN_INCR_3_PATH, SIMILARITY_3)
+    # analyse_similarity(RETRAIN_INCR_4_PATH, SIMILARITY_4)
