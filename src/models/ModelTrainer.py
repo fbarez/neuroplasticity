@@ -1,6 +1,7 @@
 from transformers import DataCollatorForTokenClassification
 from transformers import AutoModelForTokenClassification
 from transformers import TrainingArguments, Trainer
+from src import tokenizer, MODEL_CHECKPOINT
 from src.features.build_features import (
     get_token_class_label_names,
     tokenize_token_class_dataset,
@@ -10,22 +11,16 @@ import evaluate
 
 
 class ModelTrainer:
-    def __init__(self, neurons_per_layer, num_layers, model_checkpoint):
-        
-        self.neurons_per_layer = neurons_per_layer
-        self.num_layers = num_layers
-        self.model_checkpoint = model_checkpoint
-        self.tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
-        
+    def __init__(self):
         self.label_names = get_token_class_label_names()
         self.id2label = {i: label for i, label in enumerate(self.label_names)}
         self.label2id = {v: k for k, v in self.id2label.items()}
         self.tokenized_dataset = tokenize_token_class_dataset()
-        self.data_collator = DataCollatorForTokenClassification(tokenizer=self.tokenizer)
+        self.data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 
     def train_basic_model(self):
         model = AutoModelForTokenClassification.from_pretrained(
-            self.model_checkpoint,
+            MODEL_CHECKPOINT,
             id2label=self.id2label,
             label2id=self.label2id,
         )
@@ -46,7 +41,7 @@ class ModelTrainer:
             eval_dataset=self.tokenized_dataset["validation"],
             data_collator=self.data_collator,
             compute_metrics=self.__compute_metrics,
-            tokenizer=self.tokenizer,
+            tokenizer=tokenizer,
         )
 
         trainer.train()
@@ -73,7 +68,7 @@ class ModelTrainer:
             eval_dataset=self.tokenized_dataset["validation"],
             data_collator=self.data_collator,
             compute_metrics=self.__compute_metrics,
-            tokenizer=self.tokenizer,
+            tokenizer=tokenizer,
         )
         trainer.train()
         return model
@@ -99,7 +94,7 @@ class ModelTrainer:
             eval_dataset=self.tokenized_dataset["validation"],
             data_collator=self.data_collator,
             compute_metrics=self.__compute_metrics,
-            tokenizer=self.tokenizer,
+            tokenizer=tokenizer,
         )
         trainer.train()
         return model

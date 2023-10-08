@@ -2,8 +2,10 @@ from transformers import AutoTokenizer
 
 # Model specific constants
 NEURONS_PER_LAYER = 768
-NUM_LAYERS = 6
-MODEL_CHECKPOINT = "distilbert-base-cased"
+# NUM_LAYERS = 6 # DistilBERT
+NUM_LAYERS = 12  # GPT2
+# MODEL_CHECKPOINT = "distilbert-base-cased"
+MODEL_CHECKPOINT = "gpt2"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
 
 BASIC_MODEL_PATH = "models/basic_model"
