@@ -30,7 +30,7 @@ class ModelTrainer:
             evaluation_strategy="epoch",
             save_strategy="epoch",
             learning_rate=2e-5,
-            num_train_epochs=3,
+            num_train_epochs=5,
             weight_decay=0.01,
         )
 

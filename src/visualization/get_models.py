@@ -1,14 +1,14 @@
-from src import basic_model_path
+from src import BASIC_MODEL_PATH
 from transformers import AutoModelForTokenClassification
 import os
 
 
 def get_basic_model(model_trainer):
-    if os.path.exists(basic_model_path):
+    if os.path.exists(BASIC_MODEL_PATH):
         # Get basic model for named entity recognition on pretrained DistilBert
         print("Loading saved basic model...")
         model = AutoModelForTokenClassification.from_pretrained(
-            basic_model_path,
+            BASIC_MODEL_PATH,
             id2label=model_trainer.id2label,
             label2id=model_trainer.label2id,
         )
@@ -16,7 +16,7 @@ def get_basic_model(model_trainer):
     else:
         print("Training basic model...")
         basic_model = model_trainer.train_basic_model()
-        basic_model.save_pretrained(basic_model_path)
+        basic_model.save_pretrained(BASIC_MODEL_PATH)
         return basic_model
 
 def get_pruned_model(pruned_path, model_trainer):

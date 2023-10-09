@@ -6,7 +6,8 @@ NEURONS_PER_LAYER = 768
 NUM_LAYERS = 12  # GPT2
 # MODEL_CHECKPOINT = "distilbert-base-cased"
 MODEL_CHECKPOINT = "gpt2"
-tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT, add_prefix_space=True)
+tokenizer.pad_token = tokenizer.eos_token
 
 BASIC_MODEL_PATH = "models/basic_model"
 PRUNED_MODEL_PATH = "models/pruned_model"
