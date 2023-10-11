@@ -156,7 +156,6 @@ def mean_saliency(heatdf):
         (low, high) = st.norm.interval(confidence=0.95,
                                        loc=np.mean(row_clean), scale=st.sem(row_clean))
         error = abs(high - low) / 2
-#         std = np.std(row_clean)
         df.loc[len(df)] = [len(df), average, error]
     return df
 

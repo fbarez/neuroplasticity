@@ -4,7 +4,6 @@ from src.features.build_features import load_token_class_dataset
 from src.visualization.get_models import get_basic_model, get_incr_retrained_model
 from src.models.prune_model import prune_model
 from src.visualization.ModelAnalyzer import ModelAnalyzer
-from src.models.evaluate_model import evaluate
 from src.visualization.results_utils import compare_similarity
 import pandas as pd
 
@@ -20,7 +19,6 @@ ACTIVATIONS_INCR_4_PATH = "data/interim/retrained_activations_4.json"
 
 def build_base_model(model_trainer, dataset):
     basic_model = get_basic_model(model_trainer)
-    # evaluate(basic_model, dataset["validation"])
 
 def build_pruned_model(model_trainer, dataset):
     # Identify neurons in the basic model to ablate
@@ -30,11 +28,9 @@ def build_pruned_model(model_trainer, dataset):
     # Neurons to prune are sorted by weight in ascending order. Prune most important from end of list.
     pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, neurons_to_prune[-num_prune:])
     pruned_model.save_pretrained(PRUNED_MODEL_PATH)
-    # evaluate(pruned_model, dataset["validation"])
 
 def incr_retrain_model(model_trainer, dataset, pre_model_path, post_model_path):
     incr_model = get_incr_retrained_model(post_model_path, pre_model_path, model_trainer)
-    # evaluate(incr_model, dataset["validation"])
 
 def build_models():
     # Load dataset and trainer
