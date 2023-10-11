@@ -1,4 +1,4 @@
-from transformers import DataCollatorForTokenClassification, DataCollatorForLanguageModeling
+from transformers import DataCollatorForTokenClassification
 from transformers import AutoModelForTokenClassification
 from transformers import TrainingArguments, Trainer
 from src import tokenizer, MODEL_CHECKPOINT
@@ -12,45 +12,14 @@ import evaluate
 
 class ModelTrainer:
     def __init__(self):
-        # self.label_names = get_token_class_label_names()
-        # self.id2label = {i: label for i, label in enumerate(self.label_names)}
-        # self.label2id = {v: k for k, v in self.id2label.items()}
+        self.label_names = get_token_class_label_names()
+        self.id2label = {i: label for i, label in enumerate(self.label_names)}
+        self.label2id = {v: k for k, v in self.id2label.items()}
         self.tokenized_dataset = tokenize_token_class_dataset()
-        # self.data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
         tokenizer.pad_token = tokenizer.eos_token
-        self.data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer)
+        self.data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 
     def train_basic_model(self):
-        return self.train_basic_model_gpt2()
-
-
-    def train_basic_model_gpt2(self):
-        model = AutoModelForCausalLM.from_pretrained(MODEL_CHECKPOINT)
-
-        training_args = TrainingArguments(
-            output_dir="basic_model",
-            evaluation_strategy="epoch",
-            save_strategy="epoch",
-            learning_rate=2e-5,
-            num_train_epochs=5,
-            weight_decay=0.01,
-        )
-
-        trainer = Trainer(
-            model=model,
-            args=training_args,
-            train_dataset=self.tokenized_dataset["train"],
-            eval_dataset=self.tokenized_dataset["test"],
-            data_collator=self.data_collator,
-            compute_metrics=self.__compute_metrics,
-            tokenizer=tokenizer,
-        )
-
-        trainer.train()
-        return model
-
-    
-    def train_basic_model_bert(self):
         model = AutoModelForTokenClassification.from_pretrained(
             MODEL_CHECKPOINT,
             id2label=self.id2label,
@@ -81,33 +50,6 @@ class ModelTrainer:
 
 
     def retrain_pruned_model(self, pruned_model_path):
-        return self.retrain_pruned_model_gpt2(pruned_model_path)
-
-
-    def retrain_pruned_model_gpt2(self, pruned_model_path):
-        model = AutoModelForCausalLM.from_pretrained(pruned_model_path)
-        args = TrainingArguments(
-            "retrained_model",
-            evaluation_strategy="epoch",
-            save_strategy="epoch",
-            learning_rate=2e-5,
-            num_train_epochs=12,
-            weight_decay=0.01,
-        )
-        trainer = Trainer(
-            model=model,
-            args=args,
-            train_dataset=self.tokenized_dataset["train"],
-            eval_dataset=self.tokenized_dataset["test"],
-            data_collator=self.data_collator,
-            compute_metrics=self.__compute_metrics,
-            tokenizer=tokenizer,
-        )
-        trainer.train()
-        return model
-
-
-    def retrain_pruned_model_bert(self, pruned_model_path):
         model = AutoModelForTokenClassification.from_pretrained(
             pruned_model_path,
             id2label=self.id2label,
@@ -135,10 +77,6 @@ class ModelTrainer:
 
 
     def retrain_model_incr(self, pre_model_path):
-        return self.retrain_model_incr_gpt2(pre_model_path)
-
-
-    def retrain_model_incr_bert(self, pre_model_path):
         model = AutoModelForTokenClassification.from_pretrained(
             pre_model_path,
             id2label=self.id2label,
@@ -157,29 +95,6 @@ class ModelTrainer:
             args=args,
             train_dataset=self.tokenized_dataset["train"],
             eval_dataset=self.tokenized_dataset["validation"],
-            data_collator=self.data_collator,
-            compute_metrics=self.__compute_metrics,
-            tokenizer=tokenizer,
-        )
-        trainer.train()
-        return model
-
-
-    def retrain_model_incr_gpt2(self, pre_model_path):
-        model = AutoModelForCausalLM.from_pretrained(pre_model_path)
-        args = TrainingArguments(
-            "retrained_model",
-            evaluation_strategy="epoch",
-            save_strategy="epoch",
-            learning_rate=2e-5,
-            num_train_epochs=2,
-            weight_decay=0.01,
-        )
-        trainer = Trainer(
-            model=model,
-            args=args,
-            train_dataset=self.tokenized_dataset["train"],
-            eval_dataset=self.tokenized_dataset["test"],
             data_collator=self.data_collator,
             compute_metrics=self.__compute_metrics,
             tokenizer=tokenizer,

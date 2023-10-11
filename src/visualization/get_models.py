@@ -7,12 +7,11 @@ def get_basic_model(model_trainer):
     if os.path.exists(BASIC_MODEL_PATH):
         # Get basic model for named entity recognition on pretrained DistilBert
         print("Loading saved basic model...")
-        # model = AutoModelForTokenClassification.from_pretrained(
-        #     BASIC_MODEL_PATH,
-        #     id2label=model_trainer.id2label,
-        #     label2id=model_trainer.label2id,
-        # )
-        model = AutoModelForCausalLM.from_pretrained(BASIC_MODEL_PATH)
+        model = AutoModelForTokenClassification.from_pretrained(
+            BASIC_MODEL_PATH,
+            id2label=model_trainer.id2label,
+            label2id=model_trainer.label2id,
+        )
         return model
     else:
         print("Training basic model...")
@@ -24,12 +23,11 @@ def get_pruned_model(pruned_path, model_trainer):
     if os.path.exists(pruned_path):
         # Get basic model for named entity recognition on pretrained DistilBert
         print("Loading saved pruned model...")
-        # pruned_model = AutoModelForTokenClassification.from_pretrained(
-        #     pruned_path,
-        #     id2label=model_trainer.id2label,
-        #     label2id=model_trainer.label2id,
-        # )
-        pruned_model = AutoModelForCausalLM.from_pretrained(pruned_path)
+        pruned_model = AutoModelForTokenClassification.from_pretrained(
+            pruned_path,
+            id2label=model_trainer.id2label,
+            label2id=model_trainer.label2id,
+        )
         return pruned_model
     else:
         print("No saved pruned model. Please prune from basic model!")
@@ -38,12 +36,11 @@ def get_retrained_model(retrained_path, pruned_path, model_trainer):
     if os.path.exists(retrained_path):
         # Get basic model for named entity recognition on pretrained DistilBert
         print("Loading saved retrained model...")
-        # retrained_model = AutoModelForTokenClassification.from_pretrained(
-        #     retrained_path,
-        #     id2label=model_trainer.id2label,
-        #     label2id=model_trainer.label2id,
-        # )
-        retrained_model = AutoModelForCausalLM.from_pretrained(retrained_path)
+        retrained_model = AutoModelForTokenClassification.from_pretrained(
+            retrained_path,
+            id2label=model_trainer.id2label,
+            label2id=model_trainer.label2id,
+        )
         return retrained_model
     else:
         print("Retraining pruned model...")
@@ -55,12 +52,11 @@ def get_incr_retrained_model(post_model_path, pre_model_path, model_trainer):
     if os.path.exists(post_model_path):
         # Get basic model for named entity recognition on pretrained DistilBert
         print("Loading saved retrained model...")
-        # retrained_model = AutoModelForTokenClassification.from_pretrained(
-        #     post_model_path,
-        #     id2label=model_trainer.id2label,
-        #     label2id=model_trainer.label2id,
-        # )
-        retrained_model = AutoModelForCausalLM.from_pretrained(post_model_path)
+        retrained_model = AutoModelForTokenClassification.from_pretrained(
+            post_model_path,
+            id2label=model_trainer.id2label,
+            label2id=model_trainer.label2id,
+        )
         return retrained_model
     else:
         print("Retraining pruned model...")

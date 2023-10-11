@@ -3,10 +3,7 @@ from src import tokenizer
 
 
 def load_token_class_dataset():
-    # return load_dataset("conll2003")
-    eli5 = load_dataset("eli5")
-    eli5 = eli5.train_test_split(test_size=0.2)
-    return eli5.flatten()
+    return load_dataset("conll2003")
 
 
 def get_token_class_label_names():
@@ -17,42 +14,6 @@ def get_token_class_label_names():
 
 
 def tokenize_token_class_dataset():
-    return __tokenize_token_class_dataset_gpt2()
-
-
-def __tokenize_token_class_dataset_gpt2():
-    tokenized_eli5 = eli5.map(
-        preprocess_eli5_function,
-        batched=True,
-        num_proc=4,
-        remove_columns=eli5["train"].column_names,
-    )
-    return tokenized_eli5.map(group_texts, batched=True, num_proc=4)
-
-
-def preprocess_eli5_function(examples):
-    return tokenizer([" ".join(x) for x in examples["answers.text"]])
-
-
-def group_texts(examples):
-    block_size = 128
-    # Concatenate all texts.
-    concatenated_examples = {k: sum(examples[k], []) for k in examples.keys()}
-    total_length = len(concatenated_examples[list(examples.keys())[0]])
-    # We drop the small remainder, we could add padding if the model supported it instead of this drop, you can
-    # customize this part to your needs.
-    if total_length >= block_size:
-        total_length = (total_length // block_size) * block_size
-    # Split by chunks of block_size.
-    result = {
-        k: [t[i : i + block_size] for i in range(0, total_length, block_size)]
-        for k, t in concatenated_examples.items()
-    }
-    result["labels"] = result["input_ids"].copy()
-    return result
-
-
-def __tokenize_token_class_dataset_bert():
     raw_dataset = load_token_class_dataset()
     tokenized_dataset = raw_dataset.map(
         __tokenize_and_align_labels,
