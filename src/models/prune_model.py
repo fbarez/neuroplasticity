@@ -24,4 +24,4 @@ def prune_model(model_path: str, model_trainer, neurons_to_ablate):
         weights[neuron_index] = torch.zeros_like(weights[neuron_index])
         weights.requires_grad = False
 
-    return pruned_model
+    return model

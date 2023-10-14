@@ -40,6 +40,9 @@ class ModelAnalyzer:
         top_neurons = probeless.get_neuron_ordering_for_tag(
             self.X, self.y, self.label2idx, CONCEPT_LABEL
         )
+        # top_neurons, _ = probeless.get_neuron_ordering_for_all_tags(
+        #     self.X, self.y, self.idx2label
+        # )
         return top_neurons
 
     def show_top_words(self, concept_neurons):
