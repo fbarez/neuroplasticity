@@ -32,7 +32,8 @@ def build_pruned_model(model_trainer, dataset, random=False):
         pruned_model.save_pretrained(PRUNED_MODEL_PATH)
     # Prune randomly
     else:
-        random_neurons = random.shuffle(range(0, num_prune))
+        indices = list(range(0, num_prune))
+        random_neurons = random.shuffle(indices)
         pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, random_neurons)
         pruned_model.save_pretrained(PRUNED_MODEL_PATH)
 
