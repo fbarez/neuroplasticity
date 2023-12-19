@@ -6,6 +6,7 @@ from src.models.prune_model import prune_model
 from src.visualization.ModelAnalyzer import ModelAnalyzer
 from src.visualization.results_utils import compare_similarity
 import pandas as pd
+import random
 
 RETRAIN_INCR_1_PATH = "models/retrained_model_1"
 RETRAIN_INCR_2_PATH = "models/retrained_model_2"
@@ -20,14 +21,21 @@ ACTIVATIONS_INCR_4_PATH = "data/interim/retrained_activations_4.json"
 def build_base_model(model_trainer, dataset):
     basic_model = get_basic_model(model_trainer)
 
-def build_pruned_model(model_trainer, dataset):
+def build_pruned_model(model_trainer, dataset, random=False):
     # Identify neurons in the basic model to ablate
     basic_analyser = ModelAnalyzer(BASIC_MODEL_PATH, BASIC_ACTIVATIONS_PATH)
-    neurons_to_prune = basic_analyser.identify_concept_neurons()
     num_prune = (NEURONS_PER_LAYER * NUM_LAYERS) // 2
-    # Neurons to prune are sorted by weight in ascending order. Prune most important from end of list.
-    pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, neurons_to_prune[-num_prune:])
-    pruned_model.save_pretrained(PRUNED_MODEL_PATH)
+    if not random:
+        neurons_to_prune = basic_analyser.identify_concept_neurons()
+        # Neurons to prune are sorted by weight in ascending order. Prune most important from end of list.
+        pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, neurons_to_prune[-num_prune:])
+        pruned_model.save_pretrained(PRUNED_MODEL_PATH)
+    # Prune randomly
+    else:
+        random_neurons = random.shuffle(range(0, num_prune))
+        pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, random_neurons)
+        pruned_model.save_pretrained(PRUNED_MODEL_PATH)
+
 
 def incr_retrain_model(model_trainer, dataset, pre_model_path, post_model_path):
     incr_model = get_incr_retrained_model(post_model_path, pre_model_path, model_trainer)
@@ -38,7 +46,7 @@ def build_models():
     model_trainer = ModelTrainer()
     # Train models
     build_base_model(model_trainer, dataset)
-    build_pruned_model(model_trainer, dataset)
+    build_pruned_model(model_trainer, dataset, random=True) # Prune randomly
     incr_retrain_model(model_trainer, dataset, PRUNED_MODEL_PATH, RETRAIN_INCR_1_PATH)
     incr_retrain_model(model_trainer, dataset, RETRAIN_INCR_1_PATH, RETRAIN_INCR_2_PATH)
     incr_retrain_model(model_trainer, dataset, RETRAIN_INCR_2_PATH, RETRAIN_INCR_3_PATH)
