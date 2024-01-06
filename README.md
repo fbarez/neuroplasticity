@@ -84,15 +84,17 @@ TODO: add link to paper when released!
 
 Distributed under the MIT license. See `LICENSE` for more information.
 
-Please cite using:
-\cite@misc{lo2024large,
+## Citation
+
+
+\cite{@misc{lo2024large,
       title={Large Language Models Relearn Removed Concepts}, 
       author={Michelle Lo and Shay B. Cohen and Fazl Barez},
       year={2024},
       eprint={2401.01814},
       archivePrefix={arXiv},
       primaryClass={cs.AI}
-}
+}}
 
 
 
