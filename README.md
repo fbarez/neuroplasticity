@@ -1,4 +1,4 @@
-# Repository for Investigation of Conceptual Neuroplasticity in Language Models
+# Repository for "Large Language Models Relearn Removed Concepts"
 
 > Aim: investigate the relationship between groups of concept neurons, using the inherent plasticity of artificial neural networks.
 
@@ -83,3 +83,16 @@ TODO: add link to paper when released!
 ## License
 
 Distributed under the MIT license. See `LICENSE` for more information.
+
+Please cite using:
+\cite@misc{lo2024large,
+      title={Large Language Models Relearn Removed Concepts}, 
+      author={Michelle Lo and Shay B. Cohen and Fazl Barez},
+      year={2024},
+      eprint={2401.01814},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+
+
+
