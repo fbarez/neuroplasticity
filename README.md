@@ -1,6 +1,5 @@
 # Repository for "Large Language Models Relearn Removed Concepts"
 
-> Aim: investigate the relationship between groups of concept neurons, using the inherent plasticity of artificial neural networks.
 
 ## Usage instructions
 
@@ -34,9 +33,6 @@ Variables storing path information, e.g. string paths to saved models, are in `s
 
 See the Jupyter notebook at `notebooks/locations.ipynb` for an example of pruning concept neurons related to location names, and examining how this concept reappears after retraining the pruned model.
 
-### Paper
-
-TODO: add link to paper when released!
 
 ## Project Organization
 
