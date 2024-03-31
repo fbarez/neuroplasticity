@@ -21,11 +21,11 @@ ACTIVATIONS_INCR_4_PATH = "data/interim/retrained_activations_4.json"
 def build_base_model(model_trainer, dataset):
     basic_model = get_basic_model(model_trainer)
 
-def build_pruned_model(model_trainer, dataset, random=False):
+def build_pruned_model(model_trainer, dataset, random_pruning=False):
     # Identify neurons in the basic model to ablate
     basic_analyser = ModelAnalyzer(BASIC_MODEL_PATH, BASIC_ACTIVATIONS_PATH)
     num_prune = (NEURONS_PER_LAYER * NUM_LAYERS) // 2
-    if not random:
+    if not random_pruning:
         neurons_to_prune = basic_analyser.identify_concept_neurons()
         # Neurons to prune are sorted by weight in ascending order. Prune most important from end of list.
         pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, neurons_to_prune[-num_prune:])
@@ -47,7 +47,7 @@ def build_models():
     model_trainer = ModelTrainer()
     # Train models
     build_base_model(model_trainer, dataset)
-    build_pruned_model(model_trainer, dataset, random=True) # Prune randomly
+    build_pruned_model(model_trainer, dataset, random_pruning=True) # Prune randomly
     incr_retrain_model(model_trainer, dataset, PRUNED_MODEL_PATH, RETRAIN_INCR_1_PATH)
     incr_retrain_model(model_trainer, dataset, RETRAIN_INCR_1_PATH, RETRAIN_INCR_2_PATH)
     incr_retrain_model(model_trainer, dataset, RETRAIN_INCR_2_PATH, RETRAIN_INCR_3_PATH)
