@@ -33,8 +33,8 @@ def build_pruned_model(model_trainer, dataset, random_pruning=False):
     # Prune randomly
     else:
         indices = list(range(0, num_prune))
-        random_neurons = random.shuffle(indices)
-        pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, random_neurons)
+        random.shuffle(indices)
+        pruned_model = prune_model(BASIC_MODEL_PATH, model_trainer, indices)
         pruned_model.save_pretrained(PRUNED_MODEL_PATH)
 
 
@@ -47,7 +47,7 @@ def build_models():
     model_trainer = ModelTrainer()
     # Train models
     build_base_model(model_trainer, dataset)
-    build_pruned_model(model_trainer, dataset, random_pruning=True) # Prune randomly
+    build_pruned_model(model_trainer, dataset, random_pruning=True)
     incr_retrain_model(model_trainer, dataset, PRUNED_MODEL_PATH, RETRAIN_INCR_1_PATH)
     incr_retrain_model(model_trainer, dataset, RETRAIN_INCR_1_PATH, RETRAIN_INCR_2_PATH)
     incr_retrain_model(model_trainer, dataset, RETRAIN_INCR_2_PATH, RETRAIN_INCR_3_PATH)
