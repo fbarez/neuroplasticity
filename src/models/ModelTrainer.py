@@ -26,6 +26,10 @@ class ModelTrainer:
             label2id=self.label2id,
         )
 
+        if tokenizer.pad_token is None:
+            tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+            model.resize_token_embeddings(len(tokenizer))
+
         args = TrainingArguments(
             "basic_model",
             evaluation_strategy="epoch",
@@ -55,6 +59,11 @@ class ModelTrainer:
             id2label=self.id2label,
             label2id=self.label2id,
         )
+
+        if tokenizer.pad_token is None:
+            tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+            model.resize_token_embeddings(len(tokenizer))
+
         args = TrainingArguments(
             "retrained_model",
             evaluation_strategy="epoch",
@@ -82,6 +91,11 @@ class ModelTrainer:
             id2label=self.id2label,
             label2id=self.label2id,
         )
+
+        if tokenizer.pad_token is None:
+            tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+            model.resize_token_embeddings(len(tokenizer))
+            
         args = TrainingArguments(
             "retrained_model",
             evaluation_strategy="epoch",
