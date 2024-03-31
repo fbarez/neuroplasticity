@@ -1,6 +1,5 @@
-# Repository for Investigation of Conceptual Neuroplasticity in Language Models
+# Repository for "Large Language Models Relearn Removed Concepts"
 
-> Aim: investigate the relationship between groups of concept neurons, using the inherent plasticity of artificial neural networks.
 
 ## Usage instructions
 
@@ -34,9 +33,6 @@ Variables storing path information, e.g. string paths to saved models, are in `s
 
 See the Jupyter notebook at `notebooks/locations.ipynb` for an example of pruning concept neurons related to location names, and examining how this concept reappears after retraining the pruned model.
 
-### Paper
-
-TODO: add link to paper when released!
 
 ## Project Organization
 
@@ -83,3 +79,18 @@ TODO: add link to paper when released!
 ## License
 
 Distributed under the MIT license. See `LICENSE` for more information.
+
+## References
+
+To cite our work, please use the following BibTeX entry:
+
+
+```bibtex
+@misc{lo2024large,
+      title={Large Language Models Relearn Removed Concepts}, 
+      author={Michelle Lo and Shay B. Cohen and Fazl Barez},
+      year={2024},
+      eprint={2401.01814},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}}
